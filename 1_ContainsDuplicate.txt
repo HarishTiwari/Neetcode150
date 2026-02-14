@@ -1,0 +1,44 @@
+import java.util.HashSet;
+import java.util.Set;
+
+class Solution {
+
+    /**
+     * Problem:
+     * Given an integer array nums, return true if any value appears at least twice.
+     * Return false if every element is distinct.
+     *
+     * Approach:
+     * - Use a HashSet to store elements we have already seen.
+     * - Traverse the array.
+     * - If an element already exists in the set → duplicate found → return true.
+     * - Otherwise, add it to the set.
+     *
+     * Time Complexity: O(n)
+     * - We traverse the array once.
+     * - HashSet contains() and add() are O(1) on average.
+     *
+     * Space Complexity: O(n)
+     * - In worst case (all elements unique), we store all elements in the set.
+     */
+    public boolean containsDuplicate(int[] nums) {
+
+        // Set to store unique elements
+        Set<Integer> seen = new HashSet<>();
+
+        // Traverse each element in the array
+        for (int num : nums) {
+
+            // If element already exists → duplicate found
+            if (seen.contains(num)) {
+                return true;
+            }
+
+            // Add element to the set
+            seen.add(num);
+        }
+
+        // No duplicates found
+        return false;
+    }
+}
