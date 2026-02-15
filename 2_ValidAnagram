@@ -1,0 +1,122 @@
+ // Approach 1: Using HashMap (Character Frequency Count)
+
+import java.util.HashMap;
+import java.util.Map;
+
+class Solution {
+
+    /**
+     * Problem:
+     * Given two strings s and t, return true if t is an anagram of s,
+     * and false otherwise.
+     *
+     * An anagram means both strings contain the same characters
+     * with the same frequency.
+     *
+     * Approach (HashMap):
+     * 1. If lengths are different → cannot be anagram.
+     * 2. Count frequency of each character in string s using HashMap.
+     * 3. Traverse string t:
+     *      - If character not found in map → return false.
+     *      - Decrease its count.
+     *      - Remove from map if count becomes zero.
+     * 4. If map is empty at the end → valid anagram.
+     *
+     * Time Complexity: O(n)
+     * - One pass for s
+     * - One pass for t
+     *
+     * Space Complexity: O(n)
+     * - In worst case, all characters are unique.
+     */
+    public boolean isAnagram(String s, String t) {
+
+        // If lengths differ → not an anagram
+        if (s.length() != t.length()) {
+            return false;
+        }
+
+        // Map to store frequency of characters
+        Map<Character, Integer> map = new HashMap<>();
+
+        // Count characters from string s
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
+        }
+
+        // Reduce frequency using string t
+        for (int i = 0; i < t.length(); i++) {
+            char ch = t.charAt(i);
+
+            if (!map.containsKey(ch)) {
+                return false; // Character mismatch
+            }
+
+            map.put(ch, map.get(ch) - 1);
+
+            if (map.get(ch) == 0) {
+                map.remove(ch);
+            }
+        }
+
+        // If map empty → all counts matched
+        return map.isEmpty();
+    }
+}
+
+
+// Approach 2: Using Frequency Array (Most Optimal for Lowercase Letters)
+
+class Solution {
+
+    /**
+     * Problem:
+     * Check if two strings are anagrams.
+     *
+     * Approach (Frequency Array):
+     * 1. If lengths differ → return false.
+     * 2. Create an integer array of size 26 (for lowercase letters).
+     * 3. Increment frequency for characters in s.
+     * 4. Decrement frequency for characters in t.
+     * 5. If all values in frequency array are zero → valid anagram.
+     *
+     * Time Complexity: O(n)
+     * - One pass for s
+     * - One pass for t
+     * - One pass for frequency check (constant 26)
+     *
+     * Space Complexity: O(1)
+     * - Fixed array size (26 letters)
+     */
+    public boolean isAnagram(String s, String t) {
+
+        // If lengths differ → not an anagram
+        if (s.length() != t.length()) {
+            return false;
+        }
+
+        // Frequency array for lowercase letters
+        int[] freqArr = new int[26];
+
+        // Count characters in s
+        for (char ch : s.toCharArray()) {
+            freqArr[ch - 'a']++;
+        }
+
+        // Decrease count using t
+        for (char ch : t.toCharArray()) {
+            freqArr[ch - 'a']--;
+        }
+
+        // Verify all counts are zero
+        for (int count : freqArr) {
+            if (count != 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+
