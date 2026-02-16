@@ -1,0 +1,55 @@
+import java.util.HashMap;
+import java.util.Map;
+
+class Solution {
+
+    /**
+     * Problem:
+     * Given an array of integers nums and an integer target,
+     * return indices of the two numbers such that they add up to target.
+     *
+     * Assumptions:
+     * - Exactly one solution exists.
+     * - You may not use the same element twice.
+     *
+     * Approach (HashMap - One Pass):
+     * 1. Use a HashMap to store number → index.
+     * 2. For each element:
+     *      - Calculate complement = target - current number.
+     *      - If complement exists in map → solution found.
+     *      - Otherwise, store current number and index in map.
+     *
+     * Why this works:
+     * Instead of checking every pair (O(n²)),
+     * we store previously seen numbers for quick lookup (O(1)).
+     *
+     * Time Complexity: O(n)
+     * - Single pass through array.
+     * - HashMap lookup is O(1) average.
+     *
+     * Space Complexity: O(n)
+     * - In worst case, we store all elements in the map.
+     */
+    public int[] twoSum(int[] nums, int target) {
+
+        // Map to store number → index
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+
+            int complement = target - nums[i];
+
+            // If complement already exists → pair found
+            if (map.containsKey(complement)) {
+                return new int[]{map.get(complement), i};
+            }
+
+            // Store current number with its index
+            map.put(nums[i], i);
+        }
+
+        // Return empty array (problem guarantees one solution,
+        // but added for safety)
+        return new int[]{};
+    }
+}
