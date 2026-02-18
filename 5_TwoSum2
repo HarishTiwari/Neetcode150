@@ -1,0 +1,65 @@
+class Solution {
+
+    /**
+     * Problem:
+     * Given a 1-indexed array of integers numbers that is sorted in
+     * non-decreasing order, find two numbers such that they add up
+     * to a specific target number.
+     *
+     * Return the indices (1-based) of the two numbers.
+     *
+     * Assumptions:
+     * - Exactly one solution exists.
+     * - You may not use the same element twice.
+     * - Array is sorted.
+     *
+     * ------------------------------------------------------------
+     * Approach: Two Pointer Technique
+     * ------------------------------------------------------------
+     *
+     * Idea:
+     * - Since array is sorted, use two pointers:
+     *      left  → start of array
+     *      right → end of array
+     *
+     * - Calculate sum of numbers[left] + numbers[right]
+     *      • If sum == target → return indices
+     *      • If sum < target → move left pointer forward
+     *      • If sum > target → move right pointer backward
+     *
+     * Why this works:
+     * Because array is sorted:
+     * - Moving left pointer increases sum
+     * - Moving right pointer decreases sum
+     *
+     * Time Complexity: O(n)
+     * - Each element visited at most once.
+     *
+     * Space Complexity: O(1)
+     * - No extra data structures used.
+     */
+    public int[] twoSum(int[] numbers, int target) {
+
+        int left = 0;
+        int right = numbers.length - 1;
+
+        while (left < right) {
+
+            int sum = numbers[left] + numbers[right];
+
+            if (sum == target) {
+                // Return 1-based index
+                return new int[]{left + 1, right + 1};
+            }
+
+            if (sum < target) {
+                left++;   // Need bigger sum
+            } else {
+                right--;  // Need smaller sum
+            }
+        }
+
+        // Problem guarantees exactly one solution
+        return new int[]{};
+    }
+}
