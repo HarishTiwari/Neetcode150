@@ -1,19 +1,65 @@
+import java.util.HashSet;
+import java.util.Set;
+
 class Solution {
+
+    /**
+     * Problem:
+     * Given a string s, find the length of the longest substring
+     * without repeating characters.
+     *
+     * Example:
+     * Input:  "abcabcbb"
+     * Output: 3
+     * Explanation: "abc" is the longest substring without repeating characters.
+     *
+     * ------------------------------------------------------------
+     * Approach: Sliding Window + HashSet
+     * ------------------------------------------------------------
+     *
+     * Idea:
+     * - Use two pointers (left & right) to represent a sliding window.
+     * - Maintain a HashSet to store unique characters in current window.
+     *
+     * Steps:
+     * 1. Expand window by moving right pointer.
+     * 2. If duplicate character found:
+     *      - Shrink window from left until duplicate is removed.
+     * 3. Update maximum length at each step.
+     *
+     * Why this works:
+     * - Each character is added and removed at most once.
+     *
+     * Time Complexity: O(n)
+     * - Each character visited at most twice.
+     *
+     * Space Complexity: O(min(n, charset))
+     * - In worst case, all characters are unique.
+     */
     public int lengthOfLongestSubstring(String s) {
 
-        HashSet<Character> set = new HashSet<>();
+        // Edge case: empty string
+        if (s.length() == 0) {
+            return 0;
+        }
 
-        int left = 0;
-        int max = 0;
+        Set<Character> set = new HashSet<>();
+
+        int left = 0;     // Start of window
+        int max = 0;      // Maximum length found
 
         for (int right = 0; right < s.length(); right++) {
 
+            // If duplicate found, shrink window from left
             while (set.contains(s.charAt(right))) {
                 set.remove(s.charAt(left));
                 left++;
             }
 
+            // Add current character to window
             set.add(s.charAt(right));
+
+            // Update max length
             max = Math.max(max, right - left + 1);
         }
 
