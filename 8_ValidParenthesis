@@ -1,0 +1,74 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+class Solution {
+
+    /**
+     * Problem:
+     * Given a string s containing just the characters:
+     * '(', ')', '{', '}', '[' and ']',
+     * determine if the input string is valid.
+     *
+     * A string is valid if:
+     * 1. Open brackets must be closed by the same type.
+     * 2. Open brackets must be closed in the correct order.
+     * 3. Every closing bracket has a corresponding opening bracket.
+     *
+     * Example:
+     * Input:  "()[]{}"
+     * Output: true
+     *
+     * Input:  "(]"
+     * Output: false
+     *
+     * ------------------------------------------------------------
+     * Approach: Stack (LIFO - Last In First Out)
+     * ------------------------------------------------------------
+     *
+     * Idea:
+     * - Push opening brackets onto stack.
+     * - When a closing bracket appears:
+     *      → Stack must not be empty.
+     *      → Top of stack must match corresponding opening bracket.
+     * - At the end, stack must be empty.
+     *
+     * Why Stack?
+     * Because brackets must close in reverse order of opening.
+     *
+     * Time Complexity: O(n)
+     * - Each character processed once.
+     *
+     * Space Complexity: O(n)
+     * - In worst case, all characters are opening brackets.
+     */
+    public boolean isValid(String s) {
+
+        Deque<Character> stack = new ArrayDeque<>();
+
+        for (char ch : s.toCharArray()) {
+
+            // If opening bracket → push to stack
+            if (ch == '(' || ch == '{' || ch == '[') {
+                stack.push(ch);
+            } else {
+
+                // If closing bracket but stack empty → invalid
+                if (stack.isEmpty()) {
+                    return false;
+                }
+
+                char top = stack.pop();
+
+                // Check if brackets match
+                if ((ch == ')' && top != '(') ||
+                    (ch == '}' && top != '{') ||
+                    (ch == ']' && top != '[')) {
+                    return false;
+                }
+            }
+        }
+
+        // If stack empty → valid, otherwise invalid
+        return stack.isEmpty();
+    }
+}
